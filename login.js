@@ -1,7 +1,9 @@
 const mysql = require("mysql");
 const express = require("express");
 const bodyParser = require("body-parser");
-const encoder = bodyParser.urlencoded();
+const encoder = bodyParser.urlencoded({ extended: true });
+
+// import { final_HASH } from "./SHA512.js";
 
 const app = express();
 app.use("/assets", express.static("assets"));
@@ -24,10 +26,22 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", encoder, function (req, res) {
+  // var username = req.body.username;
+  // var password = req.body.password;
+  // generateHASH512(password);
+  // var passkey = encrypt(req.body.password);
+  // console.log(passkey);
+
   var username = req.body.username;
   var password = req.body.password;
-  var passkey = encrypt(req.body.password);
-  console.log(passkey);
+
+  module.exports = { password };
+  var SHA256 = require("./SHA512");
+  var HASH = SHA256.final_HASH;
+
+  console.log(username);
+  console.log(HASH);
+
   connection.query(
     "select * from user_log_in_details where user_email = ? and user_pass = ?",
     [username, password],
@@ -44,9 +58,9 @@ app.post("/", encoder, function (req, res) {
   );
 });
 
-function encrypt(passpass) {
-  return passpass + "1" + "2" + "3";
-}
+// function encrypt(passpass) {
+//   return passpass + "1" + "2" + "3";
+// }
 
 app.post("/register", encoder, function (req, res) {
   var name = req.body.name;
