@@ -44,10 +44,11 @@ app.post("/", encoder, function (req, res) {
 
   connection.query(
     "select * from user_log_in_details where user_email = ? and user_pass = ?",
-    [username, password],
+    [username, HASH],
     function (error, results, fields) {
-      if (results.length > 0) {
-        // console.log(results[0].user_pass);
+      console.log(results[0].user_pass);
+      if (results.length > 0 && results[0].user_pass == HASH) {
+        console.log("Hash matched successfully !!!!!");
         res.redirect("/welcome");
       } else {
         console.log("Invalid Username or Password");
@@ -67,9 +68,17 @@ app.post("/register", encoder, function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
 
+  module.exports = { password };
+  var SHA256 = require("./SHA512");
+  var HASH = SHA256.final_HASH;
+
+  console.log(name);
+  console.log(email);
+  console.log(HASH);
+
   connection.query(
     "INSERT INTO user_log_in_details (user_name, user_email, user_pass) VALUES (?, ?, ?)",
-    [name, email, password],
+    [name, email, HASH],
     function (error, results, fields) {
       if (error) {
         console.log("Error registering user: " + error.message);
