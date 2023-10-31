@@ -13,10 +13,10 @@
  */
 
 // import { password } from "./login.js";
-var log = require("./login");
-var final_Password = log.password;
-var final_HASH;
-hex_sha512(final_Password);
+// var log = require("./login");
+// var final_Password = log.password;
+// var final_HASH;
+// hex_sha512(final_Password);
 var hexcase = 0; /* hex output format. 0 - lowercase; 1 - uppercase        */
 var b64pad = ""; /* base-64 pad character. "=" for strict RFC compliance   */
 
@@ -24,9 +24,11 @@ var b64pad = ""; /* base-64 pad character. "=" for strict RFC compliance   */
  * These are the functions you'll usually want to call
  * They take string arguments and return either hex or base-64 encoded strings
  */
-function hex_sha512(s) {
+const hex_sha512 = (s) => {
   return rstr2hex(rstr_sha512(str2rstr_utf8(s)));
-}
+};
+
+module.exports = { hex_sha512 };
 function b64_sha512(s) {
   return rstr2b64(rstr_sha512(str2rstr_utf8(s)));
 }
@@ -96,10 +98,10 @@ function rstr2hex(input) {
     x = input.charCodeAt(i);
     output += hex_tab.charAt((x >>> 4) & 0x0f) + hex_tab.charAt(x & 0x0f);
   }
-  final_HASH = output;
+  // final_HASH = output;
   return output;
 }
-module.exports = { final_HASH };
+// module.exports = { final_HASH };
 
 /*
  * Convert a raw string to a base-64 string
